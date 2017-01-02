@@ -32,7 +32,6 @@ public  class SiebelAccountCreation
   @SuppressWarnings("unchecked")
 public static void SiebelAccountCreation() throws IOException, Exception {
 
-
       //Read input excel sheet for test data
       ExcelSheet exl=new ExcelSheet();
 
@@ -81,7 +80,7 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                       try{
                     	  try{
                       		//Launching Browser
-                      		FunctionLibrary.launchBrowser(applicationUrl.toString(), "Launching siebel app",currentTcBrowser);
+                      		CommonLibrary.launchBrowser(applicationUrl.toString(), "Launching siebel app",currentTcBrowser);
                               FunctionLibrary.Wait_For_Object = new WebDriverWait(FunctionLibrary.ObjDriver,60);
                               FunctionLibrary.Wait_For_Object.until(ExpectedConditions.visibilityOfElementLocated(By.id("s_swepi_1")));
                              }catch(Exception e){System.out.println("Problem in Home Page");}
@@ -611,7 +610,6 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                              Desc="Clicks on Save Button[PaymentDetails Save button]";
                              FunctionLibrary.clickObject(paymentDetailsInfoSaveBtn,"",Desc);
                              //handle the "Do you want to updated the credit card details as primary payment method....." format pop-up alert
-                             //todo: 2 popup: write their  information here
 
                              try {
                                WebDriverWait  wai= new WebDriverWait(FunctionLibrary.ObjDriver,10);
@@ -663,14 +661,14 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                              {
                             	 //Checking for BrowserName if different browser for next test case
                             	// if(!exl.readexcel("siebel", i, 1).equals(exl.readexcel("siebel", i+1, 1)))
-                            	 if(currentTcBrowser!=previousTestCaseBrowser)
+                       /*     	 if(currentTcBrowser!=previousTestCaseBrowser)
                                  {
                             		 FunctionLibrary.Close_All_Active_Browser();
                                	    
                                	  //FunctionLibrary.launchBrowser(siebelURL, "Launching siebel app",exl.readexcel("siebel", i+1, 1));
                                  	//FunctionLibrary.launchBrowser(CommonLibrary.settingsSheetInfo.get("URL_QA").toString(), "Launching siebel app",eachTestCaseData2.get("Browser Type"));
                                  }
-                              FunctionLibrary.clickObject(logoutSettingImage, "", "Click on Logout Image");
+                       */       FunctionLibrary.clickObject(logoutSettingImage, "", "Click on Logout Image");
                               FunctionLibrary.clickObject(logoutButton, "", "Click on Logout Image");
                               
                              }
@@ -697,10 +695,12 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                           FunctionLibrary.clickObject(logoutButton, "", "Click on Logout Image");
                     	 }
 
+/*
                            if (previousTestCaseBrowser!=currentTcBrowser)
                            {
                               FunctionLibrary.Close_All_Active_Browser();
                            }
+*/
 
                       /*//if(!exl.readexcel("siebel", i, 1).equals(exl.readexcel("siebel", i+1, 1)))
                     	 if(!eachTestCaseData.get("Browser Type").equals(eachTestCaseData2.get("Browser Type")))
@@ -711,7 +711,8 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                         }*/
                        }
                    }
-                  else{  
+                   /*
+                  else{
                 	  //if(!exl.readexcel("siebel", i, 1).equals(exl.readexcel("siebel", i+1, 1)))
             
                 	  if(previousTestCaseBrowser!=currentTcBrowser)
@@ -720,20 +721,20 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                      	  //FunctionLibrary.launchBrowser(siebelURL, "Launching siebel app",exl.readexcel("siebel", i+1, 1));
                  		//FunctionLibrary.launchBrowser(CommonLibrary.settingsSheetInfo.get("URL_QA").toString(), "Launching siebel app",eachTestCaseData2.get("Browser Type"));
                        }	 
-                     
-                   }
+
+                   }*/
                   
        		           //FunctionLibrary.NavigateTo(siebelURL, "Navigating URL");
                 }//End of Catch
                          
        }//End of main outer IF
                   //Closing Browser
-           		      
+           		      /*
                        if(!(counter==0)){
            		     
            		       
            	           //FunctionLibrary.Close_All_Active_Browser(); 
-           		       }   
+           		       } */
                          //FunctionLibrary.Close_All_Active_Browser();
          }//End Of outer for loop
 

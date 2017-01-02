@@ -10,6 +10,13 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -25,6 +32,8 @@ import static objectProperties.SiebelAccountMaintenancePageObject.siebelHomePage
  * Created by 23319 on 28-12-2016.
  */
 public class CommonLibrary {
+    public static String newBrowser="";
+    public static String oldBrowser="";
 
     public static String stringHelperToGenerateUniqueLastName = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public static Random rand = new Random();
@@ -248,7 +257,7 @@ public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int c
         String Desc;
         try {
             //Launching Browser
-            FunctionLibrary.launchBrowser(CommonLibrary.getSettingsSheetInfo().get("URL_QA").toString(),
+            CommonLibrary.launchBrowser(CommonLibrary.getSettingsSheetInfo().get("URL_QA").toString(),
                     "Launching siebel app", dataObj.get("Browser Type"));
             FunctionLibrary.Wait_For_Object = new WebDriverWait(FunctionLibrary.ObjDriver, 60);
             FunctionLibrary.Wait_For_Object.until(ExpectedConditions.visibilityOfElementLocated(By.id("s_swepi_1")));
@@ -275,6 +284,61 @@ public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int c
             ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Login failed. Dashboard is not displayed",
                     LogStatus.FAIL, true);
         }
+
+    }
+
+    public static void launchBrowser(String url,String desc,String browserName)
+    {
+        newBrowser = browserName;
+        if(!oldBrowser.equals(newBrowser))
+        {
+            try{
+                FunctionLibrary.ObjDriver.quit();
+            }
+            catch (Exception e)
+            {
+                System.out.println("Webdriver is not yet initiated");
+            }
+
+        }
+        System.out.println(browserName);
+        if(browserName.equalsIgnoreCase("firefox")) {
+            System.setProperty("webdriver.gecko.driver",".\\src\\browserDrivers\\geckodriver.exe");
+            DesiredCapabilities capabilities=DesiredCapabilities.firefox();
+            capabilities.setCapability("marionette", true);
+            FunctionLibrary.ObjDriver = new FirefoxDriver(capabilities);
+
+        }else if(browserName.equalsIgnoreCase("chrome")) {
+
+            System.setProperty("webdriver.chrome.driver", ".\\src\\browserDrivers\\chromedriver.exe");
+
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--start-maximized");
+            FunctionLibrary.ObjDriver = new ChromeDriver( );
+
+        }else if(browserName.equalsIgnoreCase("iexplore")) {
+
+            System.setProperty("webdriver.ie.driver",".\\src\\browserDrivers\\IEDriverServer.exe");
+            FunctionLibrary.ObjDriver = new InternetExplorerDriver();
+            //Get Browser name and version.
+
+
+//Get OS name.
+        }else {
+            System.out.println(FunctionLibrary.ObjDriver + " is not a supported browser");
+        }
+
+
+        FunctionLibrary.ObjDriver.manage().window().maximize();
+        Capabilities caps = ((RemoteWebDriver) FunctionLibrary.ObjDriver).getCapabilities();
+        String browserName1 = caps.getBrowserName();
+        String browserVersion = caps.getVersion();
+
+        String os = System.getProperty("os.name").toLowerCase();
+        //System.out.println("operating system: " + os);
+        System.out.println("Test environment: Browser '" + browserName1 + "' of version '" + browserVersion + "' on OS '"+os+"'");
+        FunctionLibrary.ObjDriver.navigate().to(url);
+        oldBrowser=newBrowser;
 
     }
 

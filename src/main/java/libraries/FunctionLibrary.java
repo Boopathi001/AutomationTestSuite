@@ -99,6 +99,7 @@ public class FunctionLibrary
 
 	public static void Close_All_Active_Browser()
 	{
+		CommonLibrary.oldBrowser="";
 		Set<String> BrowserList = null;
 		Iterator<String> IteratorList = null;
 		int Browser_Cnt = 0;
@@ -141,7 +142,7 @@ public class FunctionLibrary
 	}
 
 	//public static void launchBrowser(String URL,String Desc,String browserName)
-	public static void launchBrowser(String URL,String Desc,String browserName)
+	public static void launchBrowserDeleteIt(String URL,String Desc,String browserName)
 	{
 		if(!URL.matches(""))
 		
