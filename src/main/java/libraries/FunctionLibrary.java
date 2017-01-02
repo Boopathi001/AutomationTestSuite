@@ -19,8 +19,6 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-//import org.testng.junit.IJUnitTestRunner;
-
 
 @SuppressWarnings({ "unused", "restriction" })
 public class FunctionLibrary
@@ -195,10 +193,6 @@ public class FunctionLibrary
 			}else {
 				System.out.println(FunctionLibrary.ObjDriver + " is not a supported browser");
 			}
-			
-			
-			
-
 			////ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, Desc + ": "+URL, LogStatus.PASS, false);
 
 		}
