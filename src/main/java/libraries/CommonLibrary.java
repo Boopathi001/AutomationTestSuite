@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static objectProperties.SblCreateAccountPageProperties.*;
-import static objectProperties.SiebelAccountMaintenancePageObject.siebelHomePageVerificationTxt;
+import static objectProperties.SiebelAccountMaintenancePageObject.*;
 
 /**
  * Created by 23319 on 28-12-2016.
@@ -341,5 +341,12 @@ public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int c
         oldBrowser=newBrowser;
 
     }
+public static void serachForAccount(String accountNumber)
+{
 
+    FunctionLibrary.clickObject(accountsTab, "", "Clicking Accounts tab");
+    FunctionLibrary.setText(accountNumberTxtBox, accountNumber, "Entering the account number");
+    ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number,"Search for account number: 326054780",LogStatus.INFO,false);
+    FunctionLibrary.clickObject(goBtn, "", "Clicking go button");
+}
 }

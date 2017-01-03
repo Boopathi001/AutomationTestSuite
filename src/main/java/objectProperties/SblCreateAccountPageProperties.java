@@ -183,6 +183,9 @@ public class SblCreateAccountPageProperties {
     public static String FEINTextBox="xpath=.//*[@aria-label='FEIN']";
     public static String planNameDropDownIcon="xpath=//span[@class='siebui-icon-dropdown']";
 
+    // account maintenance properties
+    public static String accountCompanyNameTxtBox = "//*[contains(@aria-labelledby, 'Company Name')]";
+
 
 }
 

@@ -27,5 +27,4 @@ public class SiebelAccountMaintenancePageObject {
     public static String accountInfoPINTxt="xpath=//input[@aria-labelledby='Challenge_Answer_Label' and @aria-label='Challenge Answer' and contains(@name,'s_1')]";
     public static String accountInfoMiscellaniousPINTxtBox="xpath=//input[@aria-labelledby='Challenge_Answer_Label' and @aria-label='Challenge Answer' and contains(@name,'s_2')]";
 
-
 }
