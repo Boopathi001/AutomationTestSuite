@@ -1399,7 +1399,7 @@ public class FunctionLibrary
 				Wait_For_Object.until(ExpectedConditions.visibilityOf(Object));
 				Wait_For_Object.until(ExpectedConditions.elementToBeClickable(Object));
 
-				JavascriptExecutor js = (JavascriptExecutor) FunctionLibrary.ObjDriver;
+				//JavascriptExecutor js = (JavascriptExecutor) FunctionLibrary.ObjDriver;
 				//js.executeScript("return document.readyState").toString().equals("complete");
 
 				////Wait_For_Object.until(ExpectedConditions.stalenessOf(Object));

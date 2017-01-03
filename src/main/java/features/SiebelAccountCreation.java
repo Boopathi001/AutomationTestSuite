@@ -7,6 +7,7 @@ import libraries.ReportLibrary;
 import org.joda.time.DateTime;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -72,7 +73,7 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                 if(Execution_Status.equalsIgnoreCase("Yes"))
                    {
                        ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number,"<b>"+eachTestCaseData.get("TestCaseId")+"</b>"+": Test Case Execution is started....................... <br>"
-                               + "Test case description: " + eachTestCaseData.get("TestDesc"), LogStatus.INFO, false);
+                               + "Test case description: " + eachTestCaseData.get("TestCaseDesc"), LogStatus.INFO, false);
 
                        //Counter variable is to make sure if browser opened or not
              	      counter=+1;
@@ -113,40 +114,70 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                             {
                             	LoginMessage="Success";
                             	//Type of Account creation adding to Report
-                            	//ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Creating :"+""+AccountType+""+" Account For Sieble CRM"+"By Using ["+PaymentMode+" And "+ModeType+"]", LogStatus.PASS, true);
+                            	ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Creating :"+""+AccountType+""+" Account For Sieble CRM"+"By Using ["+PaymentMode+" And "+ModeType+"]", LogStatus.PASS, true);
                              //******************Changing Mode******************
                                 //Function call for Change Logon mode
-                            	//changeLogonMode(ModeType); //Calling ChangeLogonMode Function
+                            	changeLogonMode(ModeType); //Calling ChangeLogonMode Function
 
-                             //****************code for commercial/Business account ***************************
-                             if(AccountType.equalsIgnoreCase("Business")|| AccountType.equalsIgnoreCase("Commercial"))
-                             {
+//                             //****************code for commercial/Business account ***************************
+  //                           if(AccountType.equalsIgnoreCase("Business")|| AccountType.equalsIgnoreCase("Commercial"))
+                            /* {
                                FunctionLibrary.clickObject(siteMapImage, "", "Click on SiteMap image");
                                FunctionLibrary.clickObject(administrativeUserLink, "", "Click on AdministratorUser link");
                               if( FunctionLibrary.verifyWebElementExist(employeeLink, "Verify Employee Link is displayed")){
                                  FunctionLibrary.clickObject(employeeLink, "", "Click on Employee link");
                               }
-                               FunctionLibrary.clickObject(employeeSearchComboBoxIcon, "", "Click on comboboxIcon");
+                            */
+
+                                FunctionLibrary.clickObject(siteMapImage, "", "Click on SiteMap image");
+
+                                JavascriptExecutor js = (JavascriptExecutor) FunctionLibrary.ObjDriver;
+                                js.executeScript("return document.readyState").toString().equals("complete");
+
+                                FunctionLibrary.clickObject(administrativeUserLink, "", "Click on AdministratorUser link");
+
+                                if( FunctionLibrary.verifyWebElementExist(employeeLink, "Verify Employee Link is displayed")) {
+                                    FunctionLibrary.clickObject(employeeLink, "", "Click on Employee link");
+                                }
+
+                                FunctionLibrary.clickObject(employeeSearchComboBoxIcon, "", "Click on comboboxIcon");
+                                js.executeScript("return document.readyState").toString().equals("complete");
                                FunctionLibrary.clickObject(selectLoginName, "", "select Login Name");
                                //Set User Name on the Login Text Box
                                FunctionLibrary.setText(loginnameTextBox,eachTestCaseData.get("UserId"), "Enter Login Name");
                                FunctionLibrary.clickObject(selectGo, "", "Click on GO");
+                                js.executeScript("return document.readyState").toString().equals("complete");
+                                    String CommercialAccValue=FunctionLibrary.Get_Element(commercialAccountSelect).getAttribute("aria-checked");
+                                    //****Radio Button selection for Commercial flow
+                                    if(AccountType.equalsIgnoreCase("Commercial") && CommercialAccValue.equalsIgnoreCase("false")){
+                                        Desc="Click on commercial Account Radiobutton";
+
+                                        FunctionLibrary.clickObject("xpath=.//input[@type='checkbox' and @aria-labelledby='Commercial_Account_Open_Label']//following::span[1]", "",Desc);
+                                    }
+
+                                    //*****Radio Button selection for Business flow
+                                    if(AccountType.equalsIgnoreCase("Business") && CommercialAccValue.equalsIgnoreCase("true")){
+                                        Desc="Click on Business Account Radiobutton";
+                                        FunctionLibrary.clickObject("xpath=.//input[@type='checkbox' and @aria-labelledby='Commercial_Account_Open_Label']//following::span[1]", "",Desc);
+                                    }
+
+                                    /*
                                //Thread.sleep(2000);
-                                //****Radio Button selection for Commercial flow
+                                /*//****Radio Button selection for Commercial flow
                                  if(AccountType.equalsIgnoreCase("Business") && FunctionLibrary.Verify_WebElement_Enabled(commercialAccountSelect," ", "Checking for enabled or disabled")){
                                   FunctionLibrary.clickObject(commercialAccountSelect, "", "Click on commercial Account Radiobutton for make it enabled");
                                  }
-                                //*****Radio Button selection for Business flow
+                                /*//*****Radio Button selection for Business flow
                                  if(AccountType.equalsIgnoreCase("Commercial") &&!FunctionLibrary.Verify_WebElement_Enabled(commercialAccountSelect," ", "Checking for enabled or disabled")){
                                   FunctionLibrary.clickObject(commercialAccountSelect, "", "Click on commercial Account Radiobutton for make it enabled");
-                                 }
+                                 }*/
 
                               FunctionLibrary.clickObject(clickOnSaveCommercialAccount, "", "Click on Save");
                               FunctionLibrary.clickObject(accountOpeningBtn,"","Clicking Account opening Button");
                               FunctionLibrary.clickObject(clickOnBusinessCommercialAccount, "", "Click on Business/Commercial Account");
                               FunctionLibrary.clickObject(clickOnNewButton, "", "Click on new Button for Business/Commercial");
                               //Thread.sleep(2000);
-                             }
+
                            //---------------------------------------------------------------------------------------------------
 
 
@@ -174,7 +205,7 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                  // //FunctionLibrary.webdrvwaitByVisiblityofElementLocByXpath(FunctionLibrary.ObjDriver,5,accountNameTextBox);
 
                                 // WebDriverWait wait = new WebDriverWait(FunctionLibrary.ObjDriver,90);
-                                 Thread.sleep(8000);
+                                 Thread.sleep(4000);
                                  wait.until(ExpectedConditions.elementToBeClickable(By.xpath(".//*[@aria-label='Account Name']")));
                              //FunctionLibrary.setText(accountNameTextBox,eachTestCaseData.get("Account Name"),"Enter Account name");
                                  String accountName = eachTestCaseData.get("Account Name");
@@ -233,10 +264,11 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                              //save the personal details for Business or Commercial account
                              if(AccountType.equalsIgnoreCase("Business")|| AccountType.equalsIgnoreCase("Commercial")){
                             	 Desc="Click on Save Button";
-                            	 Thread.sleep(5000);
+                            	 Thread.sleep(3000);
                              	FunctionLibrary.clickObject(businessOrCommAcoDetailsSaveBtn,"",Desc);
 
                              }
+                                js.executeScript("return document.readyState").toString().equals("complete");
 
                                 Thread.sleep(4000);
                              //Wait till Contact New button is clickable
@@ -275,10 +307,10 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                              //handle the phone number format pop-up alert
                              try {
                                           //FunctionLibrary.clickObject("xpath=./[@id='btn-accept']","","Clicking Ok buttn");
-                              WebDriverWait wait2 = new WebDriverWait(FunctionLibrary.ObjDriver,15);
+                              WebDriverWait wait2 = new WebDriverWait(FunctionLibrary.ObjDriver,8);
                                wait2.until(ExpectedConditions.alertIsPresent());
                                Alert alert = FunctionLibrary.ObjDriver.switchTo().alert();
-                               System.out.println(alert.getText());
+                               //System.out.println(alert.getText());
                                alert.accept();
                                        /*    Robot robot = new Robot();
                                            robot.delay(250);
@@ -287,8 +319,7 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                            //Click on Contact Details Save button
                                  Thread.sleep(4000);*/
                                            Desc="Click on Contact Detail Save button";
-                                           Thread.sleep(4000);
-                                           FunctionLibrary.clickObject(contactDetailsSaveBtn,"",Desc);
+                                           Thread.sleep(3000);
 
                              } catch (Exception e) {
                                //exception handling
@@ -303,6 +334,8 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                     //exception handling
                                 }
 */
+                                FunctionLibrary.clickObject(contactDetailsSaveBtn,"",Desc);
+
                                 //Wait till Contact details row getting added
                              //Calling webdriver wait function
                              //FunctionLibrary.webdrvwaitByVisiblityofElementLocByXpath(FunctionLibrary.ObjDriver, 5, sectionTwoRowCounter);
@@ -313,7 +346,7 @@ public static void SiebelAccountCreation() throws IOException, Exception {
 /*
                              JavascriptExecutor js = (JavascriptExecutor)FunctionLibrary.ObjDriver;
                              js.executeScript("return document.readyState").toString().equals("complete");
-*/                          Thread.sleep(5000);
+*/                          Thread.sleep(3000);
 
                                 //FunctionLibrary.ObjDriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
                              //Wait till Address Details getting Loaded
@@ -347,7 +380,9 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                     city = eachAddressInfo[4];
                                     state = eachAddressInfo[5];
                                     country = eachAddressInfo[6];
+
                                     FunctionLibrary.clickObject(addressDetailsNewBtn,"",Desc);
+                                    Thread.sleep(3000);
                                     //Click on Address Type Drop down
                                     Desc="Clicking Address type drop down";
                                     FunctionLibrary.clickObject(addressDetailsAddressTypeBtn,"",Desc);
@@ -360,6 +395,19 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                     Desc="Entering street address1";
                                     FunctionLibrary.setText(addressDetailsAddress1TxtBox,addressLine1,Desc);
 
+
+
+/*
+                                           Robot robot = new Robot();
+                                           robot.delay(250);
+
+                                           robot.keyPress(KeyEvent.VK_ENTER);
+                                           robot.keyRelease(KeyEvent.VK_ENTER);
+*/
+                                           //Click on Contact Details Save button
+                                 //Thread.sleep(4000);
+
+                                   /////////////// Thread.sleep(4000);
                                     //Entering City
                                     //FunctionLibrary.clickObject(addressDetailsCityElement,"","Clicking city field");
                                     //FunctionLibrary.setText(addressDetailsCityTxtBox,exl.readexcel("siebel", i, 19),"Enter city");
@@ -369,7 +417,24 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                     //Click on Zip Code
                                     Desc="Click on postal/Zip code filed";
                                     FunctionLibrary.setText(addressDetailsPostalCodeTxtBox,zipCode,"Entering postal code");
+                                    /*try {
+                                        //FunctionLibrary.clickObject("xpath=./[@id='btn-accept']","","Clicking Ok buttn");
+                                        WebDriverWait wait2 = new WebDriverWait(FunctionLibrary.ObjDriver,10);
+                                        Alert alert = FunctionLibrary.ObjDriver.switchTo().alert();
+                                        alert.accept();
+                                        Thread.sleep(3000);
+                                        System.out.println("address alert is handled");
+                                    } catch (Exception e) {
 
+                                           Robot robot = new Robot();
+                                           robot.delay(250);
+                                           robot.keyPress(KeyEvent.VK_ENTER);
+                                           robot.keyRelease(KeyEvent.VK_ENTER);
+                                           //Click on Contact Details Save button
+                                 Thread.sleep(4000);
+                                        //exception handling
+                                        System.out.println("address alert is not handled");
+                                    }*/
                                     //Entering State
                                     //FunctionLibrary.clickObject(addressDetailsStateElement,"","Clicking state field");
                                     //FunctionLibrary.setText(addressDetailsStateTxtBox,exl.readexcel("siebel", i, 20),"Entering state value");
@@ -378,15 +443,38 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                     //FunctionLibrary.setText(addressDetailsCountryTxtBox,exl.readexcel("siebel", i, 21),"Entering country field");
                                     //Click on Address Save button
                                     Desc="Clicking address save button";
-                                    FunctionLibrary.clickObject(addressDetailsSaveBtn,"",Desc);
-                                    Thread.sleep(5000);
+                                    FunctionLibrary.ObjDriver.findElement(By.xpath(".//*[@title='Addresses:Save']")).click();
+                                    //Thread.sleep(2000);
+                                    //FunctionLibrary.clickObject(addressDetailsSaveBtn,"",Desc);
+                                    try {
+                                        //FunctionLibrary.clickObject("xpath=./[@id='btn-accept']","","Clicking Ok buttn");
+                                        WebDriverWait wait2 = new WebDriverWait(FunctionLibrary.ObjDriver,10);
+                                        wait2.until(ExpectedConditions.alertIsPresent());
+                                        Alert alert = FunctionLibrary.ObjDriver.switchTo().alert();
+                                        alert.accept();
+                                        Thread.sleep(3000);
+                                        System.out.println("address alert is handled");
+                                    } catch (Exception e) {
+                                        //exception handling
+                                        System.out.println("address alert is not present");
+/*
+
+                                        Robot robot = new Robot();
+                                        robot.delay(250);
+                                        robot.keyPress(KeyEvent.VK_ENTER);
+                                        robot.keyRelease(KeyEvent.VK_ENTER);
+                                        //Click on Contact Details Save button
+                                        Thread.sleep(4000);
+*/
+                                        //exception handling
+                                    }
                                 }
 
                              //Wait till Address Details getting addded
                              //Calling Webdriver wait functioin
                              //FunctionLibrary.webdrvwaitByVisiblityofElementClickableByXpath(FunctionLibrary.ObjDriver, 3, sectionThreeRowCounter);
                              //FunctionLibrary.verifyWebElementExist(sectionThreeRowCounter,"Verify row is added or not for address");
-                             
+
                              FunctionLibrary.clickObject(replenishmentTab,"","Clicking Replenishment button");
                              //Wait till replenishmentTab page getting Loaded
                              //Calling Webdriver wait function
@@ -627,40 +715,43 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                             //Handling POp up for Savings Payment Type
                              if(replenishmentDetailsRebillPayTypeDropdown.equalsIgnoreCase("CASH")){
                              //Handling Pop up code
-                            	try{ 
+                            	try{
                               FunctionLibrary.clickObject("xpath=.//*[@id='btn-accept']","","Clicking Ok buttn");
                             	}catch(Exception e){}
                              }
-                            
+
                              //handle the "Account created confirmation" pop-up alert
                              try {
                                WebDriverWait wait8 = new WebDriverWait(FunctionLibrary.ObjDriver,10);
                                wait8.until(ExpectedConditions.alertIsPresent());
                                Alert alert = FunctionLibrary.ObjDriver.switchTo().alert();
-                               System.out.println("Popup is displayed with text" + alert.getText());
+                               //System.out.println("Popup is displayed with text" + alert.getText());
                                alert.accept();
-                               ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Creating :"+""+AccountType+""+" Account For Sieble CRM"+"By Using-->["+PaymentMode+" And "+ModeType+"]", LogStatus.PASS, true);
+                               ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Creating :"+""+AccountType+""+" Account For Sieble CRM"+" By Using-->["+PaymentMode+" And "+ModeType+"]", LogStatus.PASS, true);
                               } catch (Exception e) {
                                //exception handling
                                System.out.println("Account is not created - Test is failed");
                              }
                              //After Account no generated
                              Desc="Verify Account  number field";
-                             FunctionLibrary.verifyWebElementExist(accountNumberFieldTxt,Desc);
-                             int AccountNumber =0;
 
-                             AccountNumber = Integer.parseInt(FunctionLibrary.getText(accountNumberFieldTxt,"","Get Account number"));
-                              //AccountNumber = Integer.parseInt(FunctionLibrary.getText(accountNumberFieldTxt,"","Get Account number"));
-                             assert (AccountNumber!=0);
-                             System.out.println("Created account number: "+ AccountNumber +".");
-                             System.out.println("Siebel Account Creation test is completed.");
-                             previousTestCaseBrowser=currentTcBrowser;
-                             //Once account no created then writing in Excel sheet
-                             ExcelSheet.writeExcel("TestData_siebel","siebel", 1, 44, +AccountNumber++,true);
-                             if(FunctionLibrary.Get_Element(logoutSettingImage).isDisplayed())
-                             {
-                            	 //Checking for BrowserName if different browser for next test case
-                            	// if(!exl.readexcel("siebel", i, 1).equals(exl.readexcel("siebel", i+1, 1)))
+                                int AccountNumber =0;
+//if (FunctionLibrary.verifyWebElementExist(accountNumberFieldTxt,Desc)) {
+                             if (FunctionLibrary.ObjDriver.findElement(By.xpath("//input[@aria-label='Acct #']")).isDisplayed()) {
+
+                                 AccountNumber = Integer.parseInt(FunctionLibrary.getText(accountNumberFieldTxt, "", "Get Account number"));
+                                 //AccountNumber = Integer.parseInt(FunctionLibrary.getText(accountNumberFieldTxt,"","Get Account number"));
+
+
+                                 assert (AccountNumber != 0);
+                                 System.out.println("Created account number: " + AccountNumber + ".");
+                                 System.out.println("Siebel Account Creation test is completed.");
+                                 previousTestCaseBrowser = currentTcBrowser;
+                                 //Once account no created then writing in Excel sheet
+                                 ExcelSheet.writeExcel("TestData_siebel", "siebel", 1, 44, +AccountNumber++, true);
+                                 if (FunctionLibrary.Get_Element(logoutSettingImage).isDisplayed()) {
+                                     //Checking for BrowserName if different browser for next test case
+                                     // if(!exl.readexcel("siebel", i, 1).equals(exl.readexcel("siebel", i+1, 1)))
                        /*     	 if(currentTcBrowser!=previousTestCaseBrowser)
                                  {
                             		 FunctionLibrary.Close_All_Active_Browser();
@@ -668,11 +759,19 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                	  //FunctionLibrary.launchBrowser(siebelURL, "Launching siebel app",exl.readexcel("siebel", i+1, 1));
                                  	//FunctionLibrary.launchBrowser(CommonLibrary.settingsSheetInfo.get("URL_QA").toString(), "Launching siebel app",eachTestCaseData2.get("Browser Type"));
                                  }
-                       */       FunctionLibrary.clickObject(logoutSettingImage, "", "Click on Logout Image");
-                              FunctionLibrary.clickObject(logoutButton, "", "Click on Logout Image");
-                              
+                       */
+                                     FunctionLibrary.clickObject(logoutSettingImage, "", "Click on Logout Image");
+                                     FunctionLibrary.clickObject(logoutButton, "", "Click on Logout Image");
+
+                                 }
                              }
-                          
+                             else
+                             {
+
+                                ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number,"Expected: Account number field should be displayed"
+                                        +"<br>"+"Actual: Acccount number filed is not displaying",LogStatus.FAIL,true);
+                                 FunctionLibrary.Close_All_Active_Browser();
+                             }
                           }//End of Inner IF
      
                }//End of Try
@@ -683,7 +782,7 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                   System.out.println("Test Failed SCREENSHOT TAKING"); 
                  // ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected:" +Desc, LogStatus.FAIL, false);
                   //ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number,ReportLibrary.desc ,LogStatus.FAIL, false);
-                   ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected: "+Desc+""+"<br>"+"Actual: Execution Failed due to ********"+Errormsg, LogStatus.FAIL, true);
+                   ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected: "+Desc+""+"<br>"+"Actual: Execution Failed due to: <br>"+Errormsg, LogStatus.FAIL, true);
                   //ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, ReportLibrary.desc, LogStatus.FAIL, true);
                   if(LoginMessage.equalsIgnoreCase("Success"))
                    {
@@ -694,6 +793,10 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                           FunctionLibrary.clickObject(logoutSettingImage, "", "Click on Logout Image");
                           FunctionLibrary.clickObject(logoutButton, "", "Click on Logout Image");
                     	 }
+                    	 else
+                         {
+                             FunctionLibrary.Close_All_Active_Browser();
+                         }
 
 /*
                            if (previousTestCaseBrowser!=currentTcBrowser)
@@ -710,6 +813,10 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                   		//FunctionLibrary.launchBrowser(CommonLibrary.settingsSheetInfo.get("URL_QA").toString(), "Launching siebel app",eachTestCaseData2.get("Browser Type"));
                         }*/
                        }
+                       else
+                     {
+                         FunctionLibrary.Close_All_Active_Browser();
+                     }
                    }
                    /*
                   else{
@@ -748,7 +855,16 @@ public static void SiebelAccountCreation() throws IOException, Exception {
             FunctionLibrary.clickObject(clickOnLogOnModeIcon, "", "Click on Logon Mode icon");
             FunctionLibrary.clickObject("xpath=//li[@data-lovtype='Vector User Profile TXDOT Form Applet:Pager Type' "
                     + "and text()='"+logonMode+"']", "", "Clicking logon mode");
+
+            JavascriptExecutor js = (JavascriptExecutor) FunctionLibrary.ObjDriver;
+            js.executeScript("return document.readyState").toString().equals("complete");
+
             FunctionLibrary.clickObject(clickOnSave, "", "Click on Save");
+
+            //JavascriptExecutor js = (JavascriptExecutor) FunctionLibrary.ObjDriver;
+            js.executeScript("return document.readyState").toString().equals("complete");
+
+
 
         }
 

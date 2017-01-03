@@ -162,7 +162,7 @@ public class SblCreateAccountPageProperties {
     public static String selectLoginName="xpath=.//*[@data-lovtype='Employee List Applet:QueryComboBox' and text()='Login Name']";
     public static String loginnameTextBox="xpath=//input[@class='siebui-ctrl-input siebui-align-left siebui-input-align-left s_1_1_16_0']";
     public static String selectGo="xpath=//button[@class='siebui-ctrl-btn siebui-icon-find s_1_1_20_0 appletButton']";
-    public static String commercialAccountSelect="xpath=.//*[@aria-label='Commercial Account Open']//following::span[1]";
+   // public static String commercialAccountSelect="xpath=.//*[@aria-label='Commercial Account Open']//following::span[1]";
    // public static String clickOnSaveCommercialAccount="xpath=//button[@title='Employee Form:Save']";
      public static String clickOnSaveCommercialAccount="xpath=//button[@title='Employee:Save']";
     //public static String clickOnBusinessCommercialAccount="xpath=//a[@href='#s_sctrl_tabView_noop' and text()='Business/Commercial Open Account View']";
@@ -185,7 +185,7 @@ public class SblCreateAccountPageProperties {
 
     // account maintenance properties
     public static String accountCompanyNameTxtBox = "//*[contains(@aria-labelledby, 'Company Name')]";
-
+    public static String commercialAccountSelect="xpath=.//input[@type='checkbox' and @aria-labelledby='Commercial_Account_Open_Label']";
 
 }
 

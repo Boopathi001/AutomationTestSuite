@@ -336,7 +336,8 @@ public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int c
 
         String os = System.getProperty("os.name").toLowerCase();
         //System.out.println("operating system: " + os);
-        System.out.println("Test environment: Browser '" + browserName1 + "' of version '" + browserVersion + "' on OS '"+os+"'");
+        ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number,"Test environment: Browser '" + browserName1 + "' of version '"
+                + browserVersion + "' on OS '"+os+"'",LogStatus.INFO,false);
         FunctionLibrary.ObjDriver.navigate().to(url);
         oldBrowser=newBrowser;
 
