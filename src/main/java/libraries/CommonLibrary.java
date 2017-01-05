@@ -11,10 +11,12 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -52,7 +54,7 @@ public class CommonLibrary {
         settingsSheetInfo = getSettingsSheetInfo();
     }
 
-    public static HashMap getSettingsSheetInfo()
+    public static HashMap<String, String> getSettingsSheetInfo()
     {
         HashMap<String,String> settingsSheetData = new HashMap<String,String>();
         try
@@ -78,7 +80,7 @@ public class CommonLibrary {
             //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
 
-            for(int m=0;m<noOfRows;m++)
+            for(int m=0;m<=noOfRows;m++)
             {
                 //System.out.println("Ieration number : " + m);
                 Row rowCurrent = rowIterator.next();
@@ -267,10 +269,10 @@ public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int c
 
         //Enter User Name
         Desc = "Entering UserName on UserName textbox";
-        FunctionLibrary.setText(loginUsernameTxtBox, dataObj.get("UserId"), Desc);
+        FunctionLibrary.setText(loginUsernameTxtBox, CommonLibrary.getSettingsSheetInfo().get("QA_USERNAME"), Desc);
         //Enter Password
         Desc = "Entering Password into password field";
-        FunctionLibrary.setText(loginPasswordTxtBox, dataObj.get("Password"), Desc);
+        FunctionLibrary.setText(loginPasswordTxtBox, CommonLibrary.getSettingsSheetInfo().get("QA_PASSWORD"), Desc);
         //Click on Sign-in Button
         Desc = "Clicking on Sign in Button";
         FunctionLibrary.clickObject(signInBtn, "", "Click sign in button");
@@ -353,5 +355,48 @@ public static void serachForAccount(String accountNumber)
     FunctionLibrary.setText(accountNumberTxtBox, accountNumber, "Entering the account number");
     ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number,"Search for account number: 326054780",LogStatus.INFO,false);
     FunctionLibrary.clickObject(goBtn, "", "Clicking go button");
+}
+
+public static void tcAccountMaintenanceAC0014(HashMap<String, String> dataObj)
+{
+
+
+    String executionStatus = dataObj.get("ExecutionStatus");
+    String newAccountName = "";
+    String oldAccountName="";
+
+    if (executionStatus.equalsIgnoreCase("Yes")) {
+
+        ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "<b>" + dataObj.get("TestCaseId")
+                + "</b>" + ": Test Case Execution is started....................... <br>"
+                + "Test case description: " + dataObj.get("TestCaseDesc"), LogStatus.INFO, false);
+
+        CommonLibrary.loginSiebelApp(dataObj);
+        CommonLibrary.serachForAccount("326054780");
+        FunctionLibrary.clickObject(accountInfoTab, "", "Clicking Account Info tab");
+
+        oldAccountName = FunctionLibrary.ObjDriver.findElement(By.xpath(accountCompanyNameTxtBox)).getText().toString();
+        newAccountName = oldAccountName + " new1";
+        FunctionLibrary.setText("xpath=//*[contains(@aria-labelledby, 'Company Name')]", newAccountName, "Enter new account name");
+        new Actions(FunctionLibrary.ObjDriver).sendKeys(Keys.chord(Keys.CONTROL, "s")).perform();
+        //Thread.sleep(3000);
+
+        CommonLibrary.serachForAccount("326054780");
+        FunctionLibrary.clickObject(accountInfoTab, "", "Clicking Account Info tab");
+        //Desc="Verify the new account  name";
+        if(FunctionLibrary.ObjDriver.findElement(By.xpath(accountCompanyNameTxtBox)).getText().equals(oldAccountName))
+
+            ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number,"Expected account name: " + newAccountName+
+                    ". <br> Actual account  name:"+ newAccountName,LogStatus.PASS,true);
+    }
+    else
+    {
+
+        ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number,"Expected account name: " + newAccountName+
+                ". <br> Actual account  name:"+ newAccountName,LogStatus.FAIL,true);
+
+    }
+
+
 }
 }
