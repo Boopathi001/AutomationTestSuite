@@ -77,6 +77,10 @@ public class SblCreateAccountPageProperties {
     public static String replenishmentDetailsNewBtn="xpath=.//*[@title='Account Replenishment Info List:New']";
     public static String replenushmentDetailsPrimaryChkBox="xpath=.//*[@id='IsPrimary']";
     public static String replenishmentDetailsRebillPayTypeDropdown="xpath=.//*[@id='PaymentType']";
+    public static String creditCardNoField="xpath=//*[@id='CCField']";
+    public static String creditCardExpMpnth="xpath=//*[@id='ExpMonth']";
+    public static String creditCardExpYear="xpath=//*[@id='ExpYear']";
+    
     public static String replenishmentDetailsSaveBtn="xpath=.//*[@id='saveReBlInf']";
     public static String replenishmentPlanTypeDropdown="xpath=//span[@class='siebui-icon-dropdown']";
     public static String replenishmentPlanNameTextBoxElement="xpath=//span[@class='cell-wrapperleaf']";
@@ -124,8 +128,8 @@ public class SblCreateAccountPageProperties {
 
     public static String plansNewButton ="xpath=.//button[@title='New']";
     public static String planTypeDropDownBtn = "xpath=.//*[@id='1_Plan_Name']//following::span[1]";
-    public static String planAlreadyExisted = "//*[contains(@aria-labelledby, '_l_Plan_Name s_') and contains(@id,'_l_Plan_Name')]";
-
+    //public static String planAlreadyExisted = "//*[contains(@aria-labelledby, '_l_Plan_Name s_') and contains(@id,'_l_Plan_Name')]";
+    public static String planAlreadyExisted = "//*[contains(@aria-labelledby, '_l_Plan_Name s_')]";
     public static String plansTabPayBtn="xpath=.//*[@title='Pay']";
     public static String paymentDetailsNewBtn="xpath=.//*[@title='Payments List:New']";
     public static String paymentDetailsPaymentTypeDropdown="xpath=.//select[@id='PaymentType']";

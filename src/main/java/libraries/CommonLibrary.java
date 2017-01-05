@@ -294,39 +294,43 @@ public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int c
         {
             try{
                 FunctionLibrary.ObjDriver.quit();
+                
+
             }
             catch (Exception e)
             {
                 System.out.println("Webdriver is not yet initiated");
             }
+            System.out.println(browserName);
+            if(browserName.equalsIgnoreCase("firefox")) {
+                System.setProperty("webdriver.gecko.driver",".\\src\\browserDrivers\\geckodriver.exe");
+                DesiredCapabilities capabilities=DesiredCapabilities.firefox();
+                capabilities.setCapability("marionette", true);
+                FunctionLibrary.ObjDriver = new FirefoxDriver(capabilities);
+
+            }else if(browserName.equalsIgnoreCase("chrome")) {
+
+                System.setProperty("webdriver.chrome.driver", ".\\src\\browserDrivers\\chromedriver.exe");
+
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--start-maximized");
+                FunctionLibrary.ObjDriver = new ChromeDriver( );
+
+            }else if(browserName.equalsIgnoreCase("iexplore")) {
+
+                System.setProperty("webdriver.ie.driver",".\\src\\browserDrivers\\IEDriverServer.exe");
+                FunctionLibrary.ObjDriver = new InternetExplorerDriver();
+                //Get Browser name and version.
+              //Get OS name.
+            }else {
+                System.out.println(FunctionLibrary.ObjDriver + " is not a supported browser");
+            }
 
         }
-        System.out.println(browserName);
-        if(browserName.equalsIgnoreCase("firefox")) {
-            System.setProperty("webdriver.gecko.driver",".\\src\\browserDrivers\\geckodriver.exe");
-            DesiredCapabilities capabilities=DesiredCapabilities.firefox();
-            capabilities.setCapability("marionette", true);
-            FunctionLibrary.ObjDriver = new FirefoxDriver(capabilities);
-
-        }else if(browserName.equalsIgnoreCase("chrome")) {
-
-            System.setProperty("webdriver.chrome.driver", ".\\src\\browserDrivers\\chromedriver.exe");
-
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--start-maximized");
-            FunctionLibrary.ObjDriver = new ChromeDriver( );
-
-        }else if(browserName.equalsIgnoreCase("iexplore")) {
-
-            System.setProperty("webdriver.ie.driver",".\\src\\browserDrivers\\IEDriverServer.exe");
-            FunctionLibrary.ObjDriver = new InternetExplorerDriver();
-            //Get Browser name and version.
+        
 
 
-//Get OS name.
-        }else {
-            System.out.println(FunctionLibrary.ObjDriver + " is not a supported browser");
-        }
+       
 
 
         FunctionLibrary.ObjDriver.manage().window().maximize();

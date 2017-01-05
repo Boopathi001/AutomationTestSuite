@@ -57,15 +57,19 @@ public class FunctionLibrary
 
 	//@@@@@@@@@@@````````````````````````@@@@@@@@@@@@@@@@@@
 	//WebDriver Wait by Xpath for Element to be visible by Xpath
-	public static void webdrvwaitByVisiblityofElementLocByXpath(WebDriver ObjDriver,int secs,String elemnt ){
-		 WebDriverWait wait1 = new WebDriverWait(ObjDriver,secs);
-         wait1.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(elemnt)));
-	}
-	//WebDriver Wait by Xpath for Element to be Clickable by Xpath
-	public static void webdrvwaitByVisiblityofElementClickableByXpath(WebDriver ObjDriver,int secs,String elemnt ){
-		 WebDriverWait wait1 = new WebDriverWait(ObjDriver,secs);
-        wait1.until(ExpectedConditions.elementToBeClickable(By.xpath(elemnt)));
-	}
+		public static void webdrvwaitByVisiblityofElementLocByXpath(WebDriver ObjDriver,int secs,String Text_Property ){
+			
+			WebElement elemnt = Get_Locator_For_Exist(Text_Property);
+			 WebDriverWait wait1 = new WebDriverWait(ObjDriver,secs);
+			 wait1.until(ExpectedConditions.visibilityOf(elemnt));
+	        
+		}
+		//WebDriver Wait by Xpath for Element to be Clickable by Xpath
+		public static void webdrvwaitByVisiblityofElementClickableByXpath(WebDriver ObjDriver,int secs,String Text_Property ){
+			WebElement elemnt = Get_Locator_For_Exist(Text_Property); 
+			WebDriverWait wait1 = new WebDriverWait(ObjDriver,secs);
+	        wait1.until(ExpectedConditions.elementToBeClickable(elemnt));
+		}
 	
 	public static void Activate_Latest_Browser(String Event,String Desc) throws Exception
 	{
