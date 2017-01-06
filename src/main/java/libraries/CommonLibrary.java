@@ -1,14 +1,11 @@
 package libraries;
 
 import com.relevantcodes.extentreports.LogStatus;
-import features.ExcelSheet;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Keys;
@@ -53,7 +50,9 @@ public class CommonLibrary {
     {
         settingsSheetInfo = getSettingsSheetInfo();
     }
-
+    /**
+     * Returns an hashmap object that can holds the settings sheet info
+     */
     public static HashMap<String, String> getSettingsSheetInfo()
     {
         HashMap<String,String> settingsSheetData = new HashMap<String,String>();
@@ -102,116 +101,14 @@ public class CommonLibrary {
         return null;
 
     }
-    public static Map getTestCasesTestData(String locOfFile)
-    {
-        HashMap<String,String> rowData = new HashMap<String,String>();
-        try
-        {
-            DataFormatter formatter = new DataFormatter();
-            FileInputStream file = new FileInputStream(new File(locOfFile));
-
-            //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
-
-            //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            int noOfRows = sheet.getLastRowNum();
-            //System.out.println("no of rows:" + noOfRows);
-
-            int i = 0;
-            Row rowWithColumnNames = sheet.getRow(0);
-            int noOfColumns = rowWithColumnNames.getPhysicalNumberOfCells();
-            //System.out.println(noOfColumns);
-            String testCaseName ="";
-            String columnNamesAndValuesOfOneRow = "";
-
-            //Iterate through each rows one by one
-            Iterator<Row> rowIterator = sheet.iterator();
-
-            // System.out.println(rowIterator
-
-            for(int m=0;m<=noOfRows;m++)
-            {
-                //System.out.println("Ieration number : " + m);
-                Row rowCurrent = rowIterator.next();
-                if(m==0){
-                    continue;
-                }
-                testCaseName = String.valueOf(rowCurrent.getCell(0));
-                //     System.out.println("test case name " + testCaseName);
-
-                for (int p = 0; p < noOfColumns; p++) {
-                    //formatter.formatCellValue(rowWithColumnNames.getCell(p))=="" &&
-                    //Igonre the columns without any column name in test case excel file
-                    if(formatter.formatCellValue(rowWithColumnNames.getCell(p))=="")
-                    {
-                        continue;
-                    }
-                    columnNamesAndValuesOfOneRow = columnNamesAndValuesOfOneRow+formatter.formatCellValue((rowWithColumnNames.getCell(p))).trim()+
-                            ":"+formatter.formatCellValue((rowCurrent.getCell(p))).trim()+";";
-
-                }
-                rowData.put(testCaseName,columnNamesAndValuesOfOneRow);
-                columnNamesAndValuesOfOneRow="";
-
-            }
-            file.close();
-
-            //Sorting the test case ids which are present in Hashmap(allTestCasesDataBeforeSort)
-            Map<String, String> allTestCasesData = new TreeMap<String, String>(rowData);
-
-            //System.out.println("After Sorting:");
-            Iterator iterator = allTestCasesData.entrySet().iterator();
-            while(iterator.hasNext()) {
-                Map.Entry me = (Map.Entry)iterator.next();
-            }
-
-            return allTestCasesData;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
-
-    }
-
-    public static HashMap<String,String> dELEMEgetRunningTestCaseData(HashMap allTestCasesData)
-    {
-        //Defining variables to save data for each row
-        String testCaseName = "";
-        String colNamesAndValuesInfoString = "";
-        String colNamesAndValuesInfoArray [];
-        String keyName="";
-        String keyValue="";
-
-        //Creating a map object to keep each test case data
-        HashMap<String,String> eachTestCaseData = new HashMap<String, String>(allTestCasesData);
-        Iterator iterator1 = allTestCasesData.entrySet().iterator();
-
-        while(iterator1.hasNext()) {
-            Map.Entry me1 = (Map.Entry) iterator1.next();
-            testCaseName = me1.getKey().toString();
-            //this string holds all the columnn name and vlaue perticular syntax(Example - "PlazaId:099;PltRead:997;
-            colNamesAndValuesInfoString = me1.getValue().toString();
-            //this array holds column names and values for a single test case(row)
-            colNamesAndValuesInfoArray = colNamesAndValuesInfoString.split(";");
-            //column name and value are keeping here in a Map(eachTestCaseData)
-            for (int i = 0; i <= colNamesAndValuesInfoArray.length - 1; i++) {
-                keyName = colNamesAndValuesInfoArray[i].split(":")[0].toString();//keyname(column name)
-                if (colNamesAndValuesInfoArray[i].split(":").length == 2) {
-                    //key  value(actual value to be passed in xml)
-                    keyValue = colNamesAndValuesInfoArray[i].split(":")[1].toString();
-                } else {
-                    keyValue = "";
-                }
-                eachTestCaseData.put(keyName, keyValue);
-            }
-        }
-        return eachTestCaseData;
-    }
-public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int currentRowNumber) {
+    /**
+     * Returns hashmap objecct with each test case data
+     * @param  ex  excelsheet object
+     * @param  sheetName name of the sheet
+     * @param  currentRowNumber current rownumber in test case excel file
+     * @return  hash map object with each test case data
+     */
+    public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int currentRowNumber) {
 
     DataFormatter formatter = new DataFormatter();
     XSSFRow rowWithColumnNames = null;
@@ -241,6 +138,9 @@ public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int c
 
 }
 
+    /**
+     * Returns string with random name
+     */
     public static String randomIdentifier() {
         StringBuilder builder = new StringBuilder();
         while(builder.toString().length() == 0) {
@@ -255,6 +155,10 @@ public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int c
         return builder.toString();
     }
 
+    /**
+     * login to siebel application
+     * @param  dataObj  hashmap object with each testcase data
+     */
     public static void loginSiebelApp(HashMap<String,String>dataObj) {
         String Desc;
         try {
@@ -288,7 +192,12 @@ public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int c
         }
 
     }
-
+    /**
+     * launch browser
+     * @param  url
+     * @param  desc
+     * @param  browserName
+     */
     public static void launchBrowser(String url,String desc,String browserName)
     {
         newBrowser = browserName;
@@ -348,7 +257,12 @@ public static HashMap getEachTestCaseData(ExcelSheet ex, String sheetName, int c
         oldBrowser=newBrowser;
 
     }
-public static void serachForAccount(String accountNumber)
+
+    /**
+     * search for account
+     * @param  accountNumber account number to be search
+     */
+    public static void serachForAccount(String accountNumber)
 {
 
     FunctionLibrary.clickObject(accountsTab, "", "Clicking Accounts tab");
@@ -357,7 +271,7 @@ public static void serachForAccount(String accountNumber)
     FunctionLibrary.clickObject(goBtn, "", "Clicking go button");
 }
 
-public static void tcAccountMaintenanceAC0014(HashMap<String, String> dataObj)
+    public static void tcAccountMaintenanceAC0014(HashMap<String, String> dataObj)
 {
 
 

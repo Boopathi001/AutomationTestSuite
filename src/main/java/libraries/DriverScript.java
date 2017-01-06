@@ -56,9 +56,5 @@ public class DriverScript {
 
 		TemporaryFilesystem.getDefaultTmpFS().deleteTemporaryFiles();
 }	
-	
-	public static void killProcess(String serviceName) throws Exception
-	{
-		Runtime.getRuntime().exec("taskkill /IM " + serviceName);
-	}
+
 }

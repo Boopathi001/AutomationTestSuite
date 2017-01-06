@@ -52,14 +52,14 @@ public class ConfigurationLibrary {
 		}
 		return Obj_Workbook.getNumberOfSheets();
 	}
-	
+
 	public static String getSheetNameByHeader(String WorkBook_Name,String Header) throws Exception
 	{
 		String ret = null;
 		try
 		{
 		int i,j;
-		
+
 		ConfigurationLibrary.Create_New_Instance = true;
 		int x = getSheetCount(WorkBook_Name);
 		ConfigurationLibrary.Create_New_Instance = false;
@@ -90,7 +90,7 @@ public class ConfigurationLibrary {
 		}
 		return ret;
 	}
-	
+
 	public static int getColumnIndexByHeader(String WorkBook_Name,String Sheet_Name,String Header) throws Exception
 	{
 		@SuppressWarnings("unused")
@@ -112,8 +112,8 @@ public class ConfigurationLibrary {
 		}
 		return ret;
 	}
-	
-	public static int getSheetRowCount(String WorkBook_Name,String Sheet_Name) throws Exception 
+
+	public static int getSheetRowCount(String WorkBook_Name,String Sheet_Name) throws Exception
 	{
 		objSheet = getActiveSheet(WorkBook_Name,Sheet_Name);
 		return objSheet.getLastRowNum();

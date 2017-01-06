@@ -3280,6 +3280,10 @@ public class FunctionLibrary
 
 
 
+	public static void killProcess(String serviceName) throws Exception
+	{
+		Runtime.getRuntime().exec("taskkill /IM " + serviceName);
+	}
 
 }
 
