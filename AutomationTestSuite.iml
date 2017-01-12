@@ -41,5 +41,6 @@
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-firefox-driver:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-ie-driver:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.9.6" level="project" />
+    <orderEntry type="library" name="Maven: com.oracle:ojdbc6:12.1.0.1-atlassian-hosted" level="project" />
   </component>
 </module>

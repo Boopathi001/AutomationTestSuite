@@ -129,7 +129,10 @@ public class SblCreateAccountPageProperties {
     public static String plansNewButton ="xpath=.//button[@title='New']";
     public static String planTypeDropDownBtn = "xpath=.//*[@id='1_Plan_Name']//following::span[1]";
     //public static String planAlreadyExisted = "//*[contains(@aria-labelledby, '_l_Plan_Name s_') and contains(@id,'_l_Plan_Name')]";
+    public static String govtAgencyPolice="xpath=//td[@title='Police']";
     public static String planAlreadyExisted = "//*[contains(@aria-labelledby, '_l_Plan_Name s_')]";
+    public static String planDeleteButton="xpath=//span[text()='Delete']";
+    public static String govtAgencyTextbox="xpath=//*[@title='GOVPOST']//following::td[5]";
     public static String plansTabPayBtn="xpath=.//*[@title='Pay']";
     public static String paymentDetailsNewBtn="xpath=.//*[@title='Payments List:New']";
     public static String paymentDetailsPaymentTypeDropdown="xpath=.//select[@id='PaymentType']";
@@ -145,6 +148,7 @@ public class SblCreateAccountPageProperties {
     public static String paymentDetailsInfoSaveBtn="xpath=//button[@id='saveReBlInf']";
     public static String paymentListSaveBtn="xpath=//button[@title='Payments List:Save']";
     public static String processPayBtn="xpath=//button[@title='Payments List:Process Pay']";
+    public static String checkPay="xpath=//*[@id='ChkNumber']";
 
 
     public static String accountNumberFieldTxt="xpath=//input[@aria-label='Acct #']";
@@ -190,6 +194,45 @@ public class SblCreateAccountPageProperties {
     // account maintenance properties
     public static String accountCompanyNameTxtBox = "//*[contains(@aria-labelledby, 'Company Name')]";
     public static String commercialAccountSelect="xpath=.//input[@type='checkbox' and @aria-labelledby='Commercial_Account_Open_Label']";
+   
+    //For verify account info on payment  page
+    public static String agencyName ="xpath=.//*[@aria-label='Agency']";
+	public static String accName ="xpath=.//*[@aria-label='Acct Name']";
+	public static String accType="xpath=.//*[@aria-label='Acct Type']";
+	public static String accStatus="xpath=.//*[@aria-label='Acct Status']";
+	public static String finRebilStatus ="xpath=.//*[@aria-label='Fin Sts/Rebill']";
+	public static String rebillType="xpath=.//*[@aria-label='Rebill Type']";
+	public static String challengeQuestion="xpath=.//*[@aria-label='Challenge QA']";
+	public static String ChallengeAnswer="xpath=.//*[@aria-label='Challenge Answer']";
+
+	public static String accNumber="xpath=.//*[@aria-label='Acct #']";
+	public static String noOfDevices="xpath=.//*[@aria-label='# of Devices']";
+	public static String noOfVehicles="xpath=.//*[@aria-label='# of Vehicles']";
+	public static String noOfOpenSr="xpath=.//*[@aria-label='# of Open SR']";
+	public static String noOfOpenInv="xpath=.//*[@aria-label='# of Open Inv']";
+	public static String linkAccBalance="xpath=.//*[@aria-label='Link Account Balance']";
+	public static String accBalance="xpath=.//*[@aria-label='Acct Bal']";
+	public static String pptlBalance="xpath=.//*[@aria-label='PPTL Bal']";
+	public static String postpaidToll="xpath=.//*[@aria-label='Postpaid Toll']";
+	public static String tollInvBal="xpath=.//*[@aria-label='Toll Inv Bal']";
+	public static String invOvrPmt="xpath=.//*[@aria-label='Inv OvrPmt']";
+	public static String ccExpiry="xpath=.//*[@aria-label='CC Expriry']";
+	public static String reminderMsg="xpath=.//*[@aria-label='Reminder Msg']";
+	public static String lastTollDate="xpath=.//*[@aria-label='Last Toll Date']";
+	public static String lastdispDateAmt="xpath=.//*[@aria-label='Last Disp Date/Amt']";
+	public static String lastPmtDate="xpath=.//*[@aria-label='Last Pmt Date']";
+	public static String accOpeningDate="xpath=.//*[@aria-label='Acct Open Date']";
+	public static String pmtDueDate="xpath=.//*[@aria-label='Pmt Due Date']";
+
+
+	public static String castAccCheckBox="xpath=.//input[@type='checkbox' and @aria-label='Cast Account']";
+	public static String isPostPaidCheckBox="xpath=.//input[@type='checkbox' and @aria-label='Is Post Paid']";
+	public static String nixieStatusCheckBox="xpath=.//input[@type='checkbox' and @aria-label='Nixie Status']";
+	public static String courtCheckBox="xpath=.//input[@type='checkbox' and @aria-label='Court']";
+	public static String nsfCheckBox="xpath=.//input[@type='checkbox' and @aria-label='NSF']";
+	public static String accountHoldCheckBox="xpath=.//input[@type='checkbox' and @aria-label='Account Hold']";
+	public static String isAnonymousCheckBox="xpath=.//input[@type='checkbox' and @aria-label='Is Anonymous']";
+	public static String tagsPricesTable = "xpath=//*[@summary='Open Items List']";
 
 }
 
