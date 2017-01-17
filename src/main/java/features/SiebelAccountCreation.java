@@ -92,8 +92,8 @@ public static void SiebelAccountCreationTest() throws IOException, Exception {
                     	          {
                             	   LoginMessage="Success";
                             	  //Type of Account creation adding to Report
-                            	   ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Creating :"+""+AccountType+""
-                            	  +" Account For Sieble CRM"+"By Using ["+PaymentMode+" And "+ModeType+"]", LogStatus.PASS, true);
+                            	 //  ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Creating :"+""+AccountType+""
+                            	 // +" Account For Sieble CRM"+"By Using ["+PaymentMode+" And "+ModeType+"]", LogStatus.PASS, true);
                             	   //******************Changing Mode***********************************************
                             	   //Function call for Change Logon mode
                             	   changeLogonMode(ModeType); //Calling ChangeLogonMode Function
@@ -301,7 +301,7 @@ public static void SiebelAccountCreationTest() throws IOException, Exception {
                              FunctionLibrary.clickObject(contactDetailsPhnNoElement,"",Desc);
                              //Enter Phone number
                              Desc="Enter phone number";
-                             FunctionLibrary.setText(contactDetailsPhnNoTxtBox,"8880739228",Desc);
+                             FunctionLibrary.setText(contactDetailsPhnNoTxtBox,eachTestCaseData.get("Cell Phone"),Desc);
 
                              //handle the phone number format pop-up alert
                              try {
@@ -316,8 +316,35 @@ public static void SiebelAccountCreationTest() throws IOException, Exception {
                              } catch (Exception e) {
                                //exception handling
                              }
-                                FunctionLibrary.clickObject(contactDetailsSaveBtn,"",Desc);
-                          Thread.sleep(3000);
+                             
+                             if(eachTestCaseData.get("Alternate Phone").length()>1)
+                             {
+                            	  //Enter Phone number
+                                 Desc="Enter phone number";
+                                 FunctionLibrary.setText("xpath=.//*[@name='Phone_Number_Work']",eachTestCaseData.get("Alternate Phone"),Desc);
+                              
+                              
+                              
+                              //handle the phone number format pop-up alert
+                              try {
+                                           //FunctionLibrary.clickObject("xpath=./[@id='btn-accept']","","Clicking Ok buttn");
+                               WebDriverWait wait2 = new WebDriverWait(FunctionLibrary.ObjDriver,8);
+                                wait2.until(ExpectedConditions.alertIsPresent());
+                                Alert alert = FunctionLibrary.ObjDriver.switchTo().alert();
+                                alert.accept();
+                                            Desc="Click on Contact Detail Save button";
+                                            Thread.sleep(3000);
+
+                              } catch (Exception e) {
+                                //exception handling
+                              }
+                              FunctionLibrary.clickObject(contactDetailsSaveBtn,"",Desc);
+                              Thread.sleep(3000);
+                              
+                             }
+                             
+                             
+                           
 
                              // click new button for Address section, enter required fields and then click save button
                                Desc="Click Address new button";
@@ -369,8 +396,8 @@ public static void SiebelAccountCreationTest() throws IOException, Exception {
                                     }
 
                                     //Click on Zip Code
-                                    //Desc="Click on postal/Zip code filed";
-                                   // FunctionLibrary.clickObject(addressDetailsPostalCodeELement,"",Desc);
+                                    Desc="Click on postal/Zip code filed";
+                                    FunctionLibrary.clickObject(addressDetailsPostalCodeELement,"",Desc);
                                     
                                     //Click on Zip Code
                                     Desc="Click on postal/Zip code filed";
