@@ -1,0 +1,5 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Thu Nov 03 07:07:22 IST 2016
+http\://repo.maven.apache.org/maven2/.lastUpdated=1478137042806
+370a47672d2a092719a971c84b6bf0d2fbbd1320@default-http\://nexus.clearskytestautomation.com\:8081/nexus/content/repositories/ClearSky-Public/.lastUpdated=1478137042017
+http\://nexus.clearskytestautomation.com\:8081/nexus/content/repositories/ClearSky-Public/.error=Could not transfer artifact org.slf4j\:slf4j-api\:pom\:1.7.7 from/to ClearSky-Public (http\://nexus.clearskytestautomation.com\:8081/nexus/content/repositories/ClearSky-Public)\: Not authorized , ReasonPhrase\:Unauthorized.
