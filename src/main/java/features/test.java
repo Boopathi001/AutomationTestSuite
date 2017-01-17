@@ -16,7 +16,7 @@ public class test{
             Statement stmt=con.createStatement();
 
 //step4 execute query
-            ResultSet rs=stmt.executeQuery("Select OU_NUM,OU_TYPE_CD,CUST_STAT_CD from siebel.S_ORG_EXT Where OU_TYPE_CD='PRIVATE' and CUST_STAT_CD='CLOSE PEND'");
+            ResultSet rs=stmt.executeQuery("Select OU_NUM,OU_TYPE_CD,CUST_STAT_CD from siebel.S_ORG_EXT Where OU_TYPE_CD='PRIVATE'");
             while(rs.next())
                 System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
 

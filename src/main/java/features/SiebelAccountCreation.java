@@ -27,7 +27,7 @@ public  class SiebelAccountCreation
     public static String LoginMessage="NotSuccess";
     public static String LogoutMessage=null;
  @SuppressWarnings("unchecked")
-public static void SiebelAccountCreation() throws IOException, Exception {
+public static void SiebelAccountCreationTest() throws IOException, Exception {
 		 
       //Read input excel sheet for test data
       ExcelSheet exl=new ExcelSheet();
@@ -149,6 +149,7 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                             		   FunctionLibrary.clickObject(clickOnSaveCommercialAccount, "", "Click on Save");
                             		   FunctionLibrary.clickObject(accountOpeningBtn,"","Clicking Account opening Button");
                             		   FunctionLibrary.clickObject(clickOnBusinessCommercialAccount, "", "Click on Business/Commercial Account");
+                            		   Thread.sleep(5000);
                             		   FunctionLibrary.clickObject(clickOnNewButton, "", "Click on new Button for Business/Commercial");
                             		   //Thread.sleep(2000);
                            }    
@@ -197,11 +198,53 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                              Desc="Enter email on Email field";
                              FunctionLibrary.setText(accountEmailIDTxtBox,eachTestCaseData.get("Email Address"),Desc);
                              //Handling pop up code after entering email
-                             Desc="Clicking Ok buttn on Alert";
-                             FunctionLibrary.clickObject("xpath=.//*[@id='btn-accept']","",Desc);
+                             
+                             try{
+
+                                 //FunctionLibrary.clickObject("xpath=./[@id='btn-accept']","","Clicking Ok buttn");
+                     WebDriverWait wait2 = new WebDriverWait(FunctionLibrary.ObjDriver,10);
+                      wait2.until(ExpectedConditions.alertIsPresent());
+                      Alert alert = FunctionLibrary.ObjDriver.switchTo().alert();
+                      alert.accept();
+                                  Desc="Click on alert while adding email";
+                                  Thread.sleep(3000);
+                             }
+                             catch(Exception e)
+                             {
+                            	 Desc="Clicking Ok buttn on Alert";
+                                 FunctionLibrary.clickObject("xpath=.//*[@id='btn-accept']","",Desc);
+                                 	 
+                             }                             
+                             
+                             String defaultStatementDeliveryfrequency = FunctionLibrary.ObjDriver.findElement(By.xpath(statementDeliveryMode)).getAttribute("value");
+                             String statementDeliveryMode = eachTestCaseData.get("Statement Frequency").split(" ")[0];
+                             String statementDeliveryFrequency = eachTestCaseData.get("Statement Frequency").split(" ")[1];
+                             if(statementDeliveryMode.startsWith(defaultStatementDeliveryfrequency))
+                             	{
+                            	ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Statement frequencey by default is "+
+                            				eachTestCaseData.get("Statement Frequency") , LogStatus.INFO, false); 
+                            	}
+                             else
+                             {
+                            	FunctionLibrary.clickObject(statementDeliveryFrequencySelectionIcon,"","Click delivery frequency selection icon");
+                            	FunctionLibrary.clickObject(popupQueryComboboxDropdownIcon,"","Click popup query dropdown icon");
+                            	FunctionLibrary.clickObject(statementDeliveryModeItem,"","Click delivery mode element");
+                            	
+                            	
+                            	FunctionLibrary.setText(popupQuerySearchTextBox,"EMAIL","Enterl statement type");
+                            	
+                            	FunctionLibrary.clickObject(popupFindButton, "", "Clicking find button");
+                            	//if mode is mail after find button click, MAIL is getting selected. Reason is only one record is present as of now for MAIL mode
+                            	
+                            	if(statementDeliveryMode!="MAIL")
+                            	{                            		
+                            		//table xpath----------- .//*[@summary='Vector Frequency PickList'];
+                                	FunctionLibrary.clickObject(popupOkayButton,"","Click ok button");
+                              	}
+                             }                  
                              //entering statement type
-                             Desc="Enter Statement type";
-                             FunctionLibrary.setText(statementTypeTxtBox,eachTestCaseData.get("Statement Frequency"),Desc);
+                           //  Desc="Enter Statement type";
+                            // FunctionLibrary.setText(statementTypeTxtBox,statementDeliveryFrequency,Desc);
                              //entering pin
                              Desc="Enter Pin";
                              FunctionLibrary.setText(accountPINTxtBox, eachTestCaseData.get("PIN"),Desc);
@@ -209,7 +252,7 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                              Desc="Select language preference";
                              FunctionLibrary.setText(preferredLanguageTxtBox,eachTestCaseData.get("LanguagePref"),Desc);
                              if(TaxExempt.equalsIgnoreCase("YES")){
-                            	 FunctionLibrary.clickObject("xpath=//*[@aria-label='Tax Exempt']//following::span[1]", "","Clicking on Tax Exepmt RadioButton");
+                            	 FunctionLibrary.clickObject("xpath=//*[@aria-label='Tax Exempt']//following::span[2]", "","Clicking on Tax Exepmt RadioButton");
                                  
                                  FunctionLibrary.setText("xpath=//*[contains(@aria-labelledby, 'Tax_Exempt_Expiry_Date_Label') and contains(@aria-label,'Tax Exempt Expiry Date')]", eachTestCaseData.get("TaxExempt ExpiryDate"), "Selecting Expiry Date");
                                  System.out.println(TaxExemptValue);
@@ -252,7 +295,7 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                 //eachTestCaseData.get("First Name"): instead of value from excel, we are using method to generate a dynamic name
                              Desc="Entering first name: " + fname;
                              FunctionLibrary.setText(contactDetailsFrstNameTxtBox,fname,Desc);
-                                ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number,"Customer fname: "+ " and lname: "+lname,LogStatus.INFO,false);
+                                ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number,"Customer fname: "+fname +" and lname: "+lname,LogStatus.INFO,false);
                              //clicks on  phone number field
                              Desc="Clicks on phone number filed";
                              FunctionLibrary.clickObject(contactDetailsPhnNoElement,"",Desc);
@@ -282,7 +325,7 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                 String addressesToBeAdded = eachTestCaseData.get("AddressType");
                                 addressesToBeAdded = addressesToBeAdded.replace("\n","");
 
-                                String []addressItems = addressesToBeAdded.split(",");
+                                String []addressItems = addressesToBeAdded.split(";");
                                 String [] eachAddressInfo;
                                 System.out.println(addressItems.length);
                                 String addressType;
@@ -314,27 +357,37 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                     Desc="Select Address Type";
                                     FunctionLibrary.clickObject("xpath=(//*[contains(text(),'"+addressType+"')])[1]","",Desc);
                                     //Click on
-                                    Desc="Clicking street address1";
+                                   Desc="Clicking street address1";
                                     FunctionLibrary.clickObject(addressDetailsAddress1Element,"",Desc);
                                     Desc="Entering street address1";
-                                    FunctionLibrary.setText(addressDetailsAddress1TxtBox,addressLine1,Desc);
+                                    FunctionLibrary.setText(addressDetailsAddress1TxtBox,addressLine1,Desc);                                 
 
-                                    //Entering City
-                                    //FunctionLibrary.clickObject(addressDetailsCityElement,"","Clicking city field");
-                                    //FunctionLibrary.setText(addressDetailsCityTxtBox,exl.readexcel("siebel", iterator, 19),"Enter city");
+                                    if(addressLine2.length()>1)
+                                    {
+                                    	Desc="Entering street address2";
+                                        FunctionLibrary.setText(addressDetailsAddress2TxtBox,addressLine2,Desc);                             
+                                    }
+
                                     //Click on Zip Code
-                                    Desc="Click on postal/Zip code filed";
-                                    FunctionLibrary.clickObject(addressDetailsPostalCodeELement,"",Desc);
+                                    //Desc="Click on postal/Zip code filed";
+                                   // FunctionLibrary.clickObject(addressDetailsPostalCodeELement,"",Desc);
+                                    
                                     //Click on Zip Code
                                     Desc="Click on postal/Zip code filed";
                                     FunctionLibrary.setText(addressDetailsPostalCodeTxtBox,zipCode,"Entering postal code");
 
+                                  //Entering City
+                                    FunctionLibrary.clickObject(addressDetailsCityElement,"","Clicking city field");
+                                    FunctionLibrary.setText(addressDetailsCityTxtBox,city,"Enter city");
+                                    
+                                    FunctionLibrary.clickObject(addressDetailsCountryElement,"","Clicking country field");
+                                    FunctionLibrary.setText(addressDetailsCountryTxtBox,country,"Entering country field");
+                                    
                                     //Entering State
-                                    //FunctionLibrary.clickObject(addressDetailsStateElement,"","Clicking state field");
-                                    //FunctionLibrary.setText(addressDetailsStateTxtBox,exl.readexcel("siebel", iterator, 20),"Entering state value");
+                                    FunctionLibrary.clickObject(addressDetailsStateElement,"","Clicking state field");
+                                    FunctionLibrary.setText(addressDetailsStateTxtBox,state,"Entering state value");
 
-                                    // FunctionLibrary.clickObject(addressDetailsCountryElement,"","Clicking country field");
-                                    //FunctionLibrary.setText(addressDetailsCountryTxtBox,exl.readexcel("siebel", iterator, 21),"Entering country field");
+                                    
                                     //Click on Address Save button
                                     Desc="Clicking address save button";
                                     FunctionLibrary.ObjDriver.findElement(By.xpath(".//*[@title='Addresses:Save']")).click();
@@ -343,6 +396,7 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                                         WebDriverWait wait2 = new WebDriverWait(FunctionLibrary.ObjDriver,10);
                                         wait2.until(ExpectedConditions.alertIsPresent());
                                         Alert alert = FunctionLibrary.ObjDriver.switchTo().alert();
+                                        System.out.println("address alert is dispalying. alert text is : " + alert.getText());
                                         alert.accept();
                                         Thread.sleep(3000);
                                         System.out.println("address alert is handled");
@@ -768,62 +822,62 @@ public static void SiebelAccountCreation() throws IOException, Exception {
                         }//End of Inner IF
      
                }//End of Try
-                  catch(Exception e)
-                {
-                	  try{
-                		  String Errormsg=e.getMessage();
-                		  System.out.println("Test Failed SCREENSHOT TAKING");
-                		  ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected: "+Desc+""+"<br>"+"Actual: Execution Failed due to: <br>"+Errormsg, LogStatus.FAIL, true);
-                		  //ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected: "+Desc+""+"<br>"+"Actual: Execution Failed due to:+"+"Cyber Source Error", LogStatus.FAIL, true);
-                          WebDriverWait wait8 = new WebDriverWait(FunctionLibrary.ObjDriver,10);
-                          wait8.until(ExpectedConditions.alertIsPresent());
-                          Thread.sleep(5000);
-                          Alert alert = FunctionLibrary.ObjDriver.switchTo().alert();
-                          alert.accept();
-                        //Handling unexpected Pop up by using Robot class
-                   		  	Robot robot = new Robot();
-                            robot.delay(250);
-                            robot.keyPress(KeyEvent.VK_ENTER);
-                            robot.keyRelease(KeyEvent.VK_ENTER); 
-                            logoutAndCloseBrowsers();
-                            if(LogoutMessage.equalsIgnoreCase("Success")){continue;}
-                	  }catch(Exception exp){};
-                	  e.printStackTrace();
-                  if (FunctionLibrary.ObjDriver.findElement(By.xpath("//*[@id='btn-accept']")).isDisplayed()) 
-                  {                	  
-                	  FunctionLibrary.ObjDriver.findElement(By.xpath("//*[@id='btn-accept']")).click();
-                	  
-                	  //Method for Logout and Closing browser
-                	  logoutAndCloseBrowsers();
-                	  if(LogoutMessage.equalsIgnoreCase("Success")){continue;}
-                	  
-                	  if(!LogoutMessage.equalsIgnoreCase("Success")){
-                		  if (FunctionLibrary.ObjDriver.findElement(By.xpath("//*[@id='btn-accept']")).isDisplayed()) 
-                		  {
-                			  FunctionLibrary.Close_All_Active_Browser();
-                		  }
-                	  continue;
-                	 }
-                  }
-                  else
-                  {
-                	  
-                    String Errormsg=e.getMessage();
-                    ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected: "+Desc+""+"<br>"+
-                    			"Actual: Execution Failed due to: <br>"+Errormsg, LogStatus.FAIL, true);
-                    //Method for Logout and Closing browser
-                    try{
-              		  //Handling unexpected Pop up
-              		  Robot robot = new Robot();
-                        robot.delay(250);
-                        robot.keyPress(KeyEvent.VK_ENTER);
-                        robot.keyRelease(KeyEvent.VK_ENTER);
-                        logoutAndCloseBrowsers();
-              	  }catch(Exception e2){};
-                    logoutAndCloseBrowsers();
-                    continue;
-                   }
-             }//End of Catch
+                       catch(Exception e)
+                       {
+                           try{
+                                 String Errormsg=e.getMessage();
+                                 System.out.println("Test Failed SCREENSHOT TAKING");
+                                 ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected: "+Desc+""+"<br>"+"Actual: Execution Failed due to: <br>"+Errormsg, LogStatus.FAIL, true);
+                                 //ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected: "+Desc+""+"<br>"+"Actual: Execution Failed due to:+"+"Cyber Source Error", LogStatus.FAIL, true);
+                                 WebDriverWait wait8 = new WebDriverWait(FunctionLibrary.ObjDriver,10);
+                                 wait8.until(ExpectedConditions.alertIsPresent());
+                                 Thread.sleep(5000);
+                                 Alert alert = FunctionLibrary.ObjDriver.switchTo().alert();
+                                 alert.accept();
+                               //Handling unexpected Pop up by using Robot class
+                                           Robot robot = new Robot();
+                                   robot.delay(250);
+                                   robot.keyPress(KeyEvent.VK_ENTER);
+                                   robot.keyRelease(KeyEvent.VK_ENTER); 
+                                   logoutAndCloseBrowsers();
+                                   if(LogoutMessage.equalsIgnoreCase("Success")){continue;}
+                           }catch(Exception exp){};
+                           e.printStackTrace();
+                         if (FunctionLibrary.ObjDriver.findElement(By.xpath("//*[@id='btn-accept']")).isDisplayed()) 
+                         {                  
+                           FunctionLibrary.ObjDriver.findElement(By.xpath("//*[@id='btn-accept']")).click();
+                           
+                           //Method for Logout and Closing browser
+                           logoutAndCloseBrowsers();
+                           if(LogoutMessage.equalsIgnoreCase("Success")){continue;}
+                           
+                           if(!LogoutMessage.equalsIgnoreCase("Success")){
+                                 if (FunctionLibrary.ObjDriver.findElement(By.xpath("//*[@id='btn-accept']")).isDisplayed()) 
+                                 {
+                                       FunctionLibrary.Close_All_Active_Browser();
+                                 }
+                           continue;
+                          }
+                         }
+                         else
+                         {
+                           
+                           String Errormsg=e.getMessage();
+                           ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected: "+Desc+""+"<br>"+
+                                           "Actual: Execution Failed due to: <br>"+Errormsg, LogStatus.FAIL, true);
+                           //Method for Logout and Closing browser
+                           try{
+                                 //Handling unexpected Pop up
+                                 Robot robot = new Robot();
+                               robot.delay(250);
+                               robot.keyPress(KeyEvent.VK_ENTER);
+                               robot.keyRelease(KeyEvent.VK_ENTER);
+                               logoutAndCloseBrowsers();
+                           }catch(Exception e2){};
+                           logoutAndCloseBrowsers();
+                           continue;
+                          }
+                    }//End of Catch
                          
        }//End of main outer IF
                 //Reseting Test Number
@@ -880,6 +934,7 @@ public static void changeLogonMode(String logonMode) throws Exception
 
             JavascriptExecutor js = (JavascriptExecutor) FunctionLibrary.ObjDriver;
             js.executeScript("return document.readyState").toString().equals("complete");
+            
 
             FunctionLibrary.clickObject(clickOnSave, "", "Click on Save");
             js.executeScript("return document.readyState").toString().equals("complete");

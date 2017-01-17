@@ -40,7 +40,7 @@ public class DriverScript {
 				try {
 
 					Class<?> c = Class.forName("features."+Str_TC_Name);
-					Method m = c.getMethod(Str_TC_Name);
+					Method m = c.getMethod(Str_TC_Name+"Test");
 					TestCaseLibrary.Get_TestCase_Instance().Execute_TC(m);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();

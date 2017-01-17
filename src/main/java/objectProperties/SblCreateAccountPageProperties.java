@@ -38,6 +38,14 @@ public class SblCreateAccountPageProperties {
     //public static String sectionOneRowCounter="xpath=.//*[@id='s_3_rc' and contains(text(),'1 of 1+')]";
     public static String sectionOneRowCounter="xpath=(.//*[@class='siebui-appletmenu-btn'])[3]//following::span[1]";
 
+    //properties for selecting statement delivery mode
+    public static String statementDeliveryMode = ".//*[@aria-label='Statement Delivery Mode']";
+	public static String statementDeliveryFrequencySelectionIcon="xpath=.//*[@aria-labelledby='Statement_Delivery_Frequency_Label']//following::span[1]";
+	public static String popupQueryComboboxDropdownIcon = "xpath=.//*[@aria-labelledby='PopupQueryCombobox_Label']//following::span[1]";
+	public static String statementDeliveryModeItem = "xpath=.//*[@class='ui-menu-item' and contains(text(),'Delivery Mode')]";
+	public static String popupQuerySearchTextBox= "xpath=.//*[@aria-labelledby='PopupQuerySrchspec_Label']";
+	public static String  popupFindButton = "xpath=.//*[@title='Vector Frequency PickList:Find']";
+	public static String popupOkayButton = "xpath=.//*[@title='Vector Frequency PickList:Ok']";
     //Properties of Entering Contact Details
 
     public static String contactDetailsNewBtn="xpath=.//*[@title='Contacts:New']";
@@ -58,14 +66,15 @@ public class SblCreateAccountPageProperties {
     public static String addressDetailsNewBtn="xpath=//button[@title='Addresses:New']";
     public static String addressDetailsAddressTypeBtn="xpath=.//*[@id='1_Address_Type']//following::span[1]";
     public static String addressDetailsAddress1Element="xpath=//*[contains(@aria-labelledby, 'Street_Address') and contains(@id,'Street_Address')]";
-    public static String addressDetailsAddress1TxtBox="xpath=.//*[@id='1_Street_Address']";
+    public static String addressDetailsAddress1TxtBox="xpath=.//*[@name='Street_Address']";
+    public static String addressDetailsAddress2TxtBox="xpath=.//*[@name='Street_Address_2']";
     public static String addressDetailsCityElement="xpath=//*[contains(@aria-labelledby, '_City') and contains(@id,'_City')]";
     public static String addressDetailsCityTxtBox="xpath=.//*[@id='1_City']";
     public static String addressDetailsPostalCodeELement="xpath=//*[contains(@aria-labelledby, '_Postal_Code s') and contains(@id,'_Postal_Code')]";
     public static String addressDetailsPostalCodeTxtBox="xpath=.//*[@id='1_Postal_Code']";
-    public static String addressDetailsStateElement="xpath=//*[contains(@aria-labelledby, '_State s') and contains(@id,'_State s')]";
+    public static String addressDetailsStateElement="xpath=//*[contains(@aria-labelledby, '_State s') and contains(@id,'l_State')]";
     public static String addressDetailsStateTxtBox="xpath=.//*[@id='1_State']";
-    public static String addressDetailsCountryElement="xpath=//*[contains(@aria-labelledby, '_Country s') and contains(@id,'_Country s')]";
+    public static String addressDetailsCountryElement="xpath=//*[contains(@aria-labelledby, '_Country s') and contains(@id,'l_Country')]";
     public static String addressDetailsCountryTxtBox="xpath=.//*[@id='1_Country']";
     public static String addressDetailsSaveBtn="xpath=.//*[@title='Addresses:Save']";
     //public static String sectionThreeRowCounter="xpath=.//*[@id='s_2_rc' and contains(text(),'1 - 1 of 1')]";
@@ -175,7 +184,7 @@ public class SblCreateAccountPageProperties {
      public static String clickOnSaveCommercialAccount="xpath=//button[@title='Employee:Save']";
     //public static String clickOnBusinessCommercialAccount="xpath=//a[@href='#s_sctrl_tabView_noop' and text()='Business/Commercial Open Account View']";
     public static String clickOnBusinessCommercialAccount="xpath=//a[@class='ui-tabs-anchor' and text()='Business/Commercial Open Account View']";
-    public static String clickOnNewButton="xpath=//button[@class='siebui-ctrl-btn appletButton siebui-icon-newrecord s_1_1_61_0']";
+    public static String clickOnNewButton="xpath=//button[@title='Business/Commercial:New']";
    /* //public static String selectSecutiryQuestionValueDropdown="xpath=";
     public static String securityAnswerTxtBox="xpath=.//*[@aria-labelledby='DeviceSoldCount_Label']";
     public static String accountEmailIDTxtBox="xpath=.//*[@aria-label='Email Address']";

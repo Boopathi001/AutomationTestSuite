@@ -43,7 +43,7 @@ public class TestCaseLibrary extends FunctionLibrary        //UPM_Object_Mapping
 			e.printStackTrace();
 		}
 	}
-	public void Execute_TC(String TC_Name,String Param1,String Param2) throws NoSuchMethodException, 
+	public void Execute_TC(String TC_Name,String Param1,String Param2) throws NoSuchMethodException,
 	SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		try
@@ -57,22 +57,22 @@ public class TestCaseLibrary extends FunctionLibrary        //UPM_Object_Mapping
 			e.printStackTrace();
 		}
 	}
-	public void Execute_TC(String TC_Name,String Param1,String Param2,String Param3) throws NoSuchMethodException, 
+	public void Execute_TC(String TC_Name,String Param1,String Param2,String Param3) throws NoSuchMethodException,
 	SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		TC_N = TC_Name;
 		Method Execute = getClass().getMethod(TC_Name,String.class, String.class, String.class);
-		
-		
+
+
 		Execute.invoke(this,Param1,Param2,Param3);
-	}	
-	public void Execute_TC(String TC_Name,String Param1,String Param2,String Param3,String Param4) throws NoSuchMethodException, 
+	}
+	public void Execute_TC(String TC_Name,String Param1,String Param2,String Param3,String Param4) throws NoSuchMethodException,
 	SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		TC_N = TC_Name;
 		Method Execute = getClass().getMethod(TC_Name,String.class, String.class, String.class,String.class);
-		
-		
+
+
 		Execute.invoke(this,Param1,Param2,Param3,Param4);
 	}
 
