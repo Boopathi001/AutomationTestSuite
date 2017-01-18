@@ -854,13 +854,17 @@ public static void SiebelAccountCreationTest() throws IOException, Exception {
                            try{
                                  String Errormsg=e.getMessage();
                                  System.out.println("Test Failed SCREENSHOT TAKING");
-                                 ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected: "+Desc+""+"<br>"+"Actual: Execution Failed due to: <br>"+Errormsg, LogStatus.FAIL, true);
+                                 
                                  //ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected: "+Desc+""+"<br>"+"Actual: Execution Failed due to:+"+"Cyber Source Error", LogStatus.FAIL, true);
                                  WebDriverWait wait8 = new WebDriverWait(FunctionLibrary.ObjDriver,10);
                                  wait8.until(ExpectedConditions.alertIsPresent());
                                  Thread.sleep(5000);
+                                 String alertText;
                                  Alert alert = FunctionLibrary.ObjDriver.switchTo().alert();
+                                 alertText = alert.getText();
                                  alert.accept();
+                                 ReportLibrary.Add_Step(ReportLibrary.Test_Step_Number, "Expected: "+Desc+""+
+                                 "<br>"+"Actual: Execution Failed due to alert : <br>"+alertText, LogStatus.FAIL, true);
                                //Handling unexpected Pop up by using Robot class
                                            Robot robot = new Robot();
                                    robot.delay(250);
