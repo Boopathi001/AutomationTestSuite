@@ -1,5 +1,0 @@
-#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
-#Thu Jan 05 14:34:48 IST 2017
-https\://repo.maven.apache.org/maven2/.lastUpdated=1483607088315
-https\://code.lds.org/nexus/content/groups/main-repo/.error=Could not transfer artifact org.seleniumhq.selenium\:selenium-firefox-driver\:jar\:sources\:3.0.1 from/to codelds (https\://code.lds.org/nexus/content/groups/main-repo)\: code.lds.org
-@default-codelds-https\://code.lds.org/nexus/content/groups/main-repo/.lastUpdated=1483541868567

@@ -1,6 +1,0 @@
-#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
-#Thu Dec 22 13:53:12 IST 2016
-http\://nexus.clearskytestautomation.com\:8081/nexus/content/repositories/ClearSky-Public/.error=Could not transfer artifact org.seleniumhq.selenium\:selenium-ie-driver\:pom\:3 from/to ClearSky-Public (http\://nexus.clearskytestautomation.com\:8081/nexus/content/repositories/ClearSky-Public)\: Not authorized , ReasonPhrase\:Unauthorized.
-https\://repo.maven.apache.org/maven2/.lastUpdated=1482394992277
-e81a4bff3f1f3f6d06472b4e08b84e221f77bb98@default-ClearSky-Public-http\://nexus.clearskytestautomation.com\:8081/nexus/content/repositories/ClearSky-Public/.lastUpdated=1482394991219
-https\://repo.maven.apache.org/maven2/.error=

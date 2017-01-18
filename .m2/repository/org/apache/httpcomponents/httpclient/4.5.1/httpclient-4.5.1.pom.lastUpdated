@@ -1,5 +1,0 @@
-#NOTE: This is an internal implementation file, its format can be changed without prior notice.
-#Thu Nov 03 07:05:03 IST 2016
-http\://repo.maven.apache.org/maven2/.lastUpdated=1478136903348
-370a47672d2a092719a971c84b6bf0d2fbbd1320@default-http\://nexus.clearskytestautomation.com\:8081/nexus/content/repositories/ClearSky-Public/.lastUpdated=1478136902793
-http\://nexus.clearskytestautomation.com\:8081/nexus/content/repositories/ClearSky-Public/.error=Could not transfer artifact org.apache.httpcomponents\:httpclient\:pom\:4.5.1 from/to ClearSky-Public (http\://nexus.clearskytestautomation.com\:8081/nexus/content/repositories/ClearSky-Public)\: Not authorized , ReasonPhrase\:Unauthorized.
