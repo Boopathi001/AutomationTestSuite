@@ -17,6 +17,11 @@ import com.relevantcodes.extentreports.LogStatus;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -3395,6 +3400,59 @@ public class FunctionLibrary
    public static void killProcess(String serviceName) throws Exception
    {
       Runtime.getRuntime().exec("taskkill /IM " + serviceName);
+   }
+
+
+	public static HashMap<String,String> getAnAccountNumber(String sql)
+   {
+
+		String connStringOracleDbQa1 = "jdbc:oracle:thin:@10.36.96.2:1521:flvecqa1";
+		String connStringOracleDbQa2 = "jdbc:oracle:thin:@10.36.96.2:1521:flvecqa2";
+		String userName = "venkatak";
+		String password = "kamani";
+   	HashMap<String,String> databaseHashMapObject = new HashMap<String,String>();
+
+   	ResultSet resultSet=null;
+   	try{
+           Class.forName("oracle.jdbc.driver.OracleDriver");
+           Connection con=DriverManager.getConnection(
+           		connStringOracleDbQa1,userName,password);
+           Statement stmt=con.createStatement();
+           resultSet=stmt.executeQuery(sql);
+           ResultSetMetaData rsmd = resultSet.getMetaData();
+           int columnCount = resultSet.getMetaData().getColumnCount();
+           String columnName;
+           String columnValue;
+           String [] columnNames= new String [columnCount];
+           
+           //read all column names into an array
+          for(int iterator=1;iterator<columnCount;iterator++)
+          {
+       	   //System.out.println(iterator);
+       	   columnName = rsmd.getColumnName(iterator);   		        	   
+   	   
+           //	System.out.println(columnName);
+           	columnNames[iterator]=columnName;
+           	
+           }
+          int number = 1;
+          //read column values. And put column name and value hashmap as key and value
+          while(resultSet.next() && number<=1)
+           {    		            	 
+           	for(int iterator1=1; iterator1<=columnCount-1;iterator1++){
+           		columnValue=resultSet.getString(iterator1);
+           		//System.out.println(columnNames[iterator1]);
+           		//System.out.println(columnValue);
+           		databaseHashMapObject.put(String.valueOf(columnNames[iterator1]), String.valueOf(columnValue));
+           		number++;
+           	}
+           }
+
+           con.close();
+
+       }catch(Exception e){ System.out.println(e);}
+		
+		return databaseHashMapObject;
    }
 
 }
